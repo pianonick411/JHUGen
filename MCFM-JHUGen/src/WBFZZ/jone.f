@@ -10,7 +10,7 @@
       include 'zacouplejk.f'
       include 'spinzerohiggs_anomcoupl.f'      
       integer h12,h34,i1,i2,i3,i4,n1,n2,n3,n4,jdu
-      double precision s12,s34,s123,s124,s134,s234,bit,
+      double precision s12,s34,s123,s124,s134,s234,s1234,bit,
      & xl,xr,xq
       double complex zab(mxpart,4,mxpart),zba(mxpart,4,mxpart),
      & j1(4,2,2,2),propz34,propz12,propw12,gmZ(2,2,2),gmZ12(2,2,2),
@@ -68,6 +68,7 @@ C---setting up couplings dependent on whether we are doing 34-line or 56-line
 
       s34=s(n3,n4)
       s12=s(n1,n2)
+      s1234 = s(n1,n2)+s(n1,n3)+s(n1,n4)+s(n2,n3)+s(n2,n4)+s(n3,n4)
       propz34=dcmplx(s34-zmass**2,zmass*zwidth)
       propz12=dcmplx(s12-zmass**2,zmass*zwidth)
       propw12=dcmplx(s12-wmass**2,wmass*wwidth)
@@ -194,7 +195,26 @@ C----Z attachment to exchanged W
      & - dV_Z*(zab(i3,:,i3) + zab(i4,:,i4))*zb(i1,i4) 
      & - (dM_Z + dP_Z)*zab(i2,:,i1)*zb(i2,i4) 
      & - im*dFour_Z*zab(i3,:,i1)*zb(i3,i4)))
-     
+C----N.Pinto: WWZ vertex contribution from cW in warsaw basis: 
+     & + cW*(WWZ(jdu,1,h34))/propw12 * (
+     & zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
+     & *(zab(i3,:,i3)+zab(i4,:,i4))
+     & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
+     & *(zab(i1,:,i1)+zab(i2,:,i2))
+     & + 0.5d0*za(i2,i3)*zb(i4,i1)
+     & *((zab(i1,:,i1)+zab(i2,:,i2))*(s1234-s(i1,i2)+s(i3,i4)) 
+     & -(zab(i3,:,i3)+zab(i4,:,i4))*(s1234+s(i1,i2)-s(i3,i4)))
+     & )
+C----N.Pinto: WWgam vertex contribution from cW in warsaw basis: 
+      & + cW*(WWgm(jdu,1,h34))/propw12 * (
+      & zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
+      & *(zab(i3,:,i3)+zab(i4,:,i4))
+      & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
+      & *(zab(i1,:,i1)+zab(i2,:,i2))
+      & + 0.5d0*za(i2,i3)*zb(i4,i1)
+      & *((zab(i1,:,i1)+zab(i2,:,i2))*(s1234-s(i1,i2)+s(i3,i4)) 
+      & -(zab(i3,:,i3)+zab(i4,:,i4))*(s1234+s(i1,i2)-s(i3,i4)))
+      & )
 !       print *, "check new jone",jdu,jw(:,jdu,h34)
 !       pause
 
