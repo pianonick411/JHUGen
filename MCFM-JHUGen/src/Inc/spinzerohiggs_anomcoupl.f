@@ -123,6 +123,10 @@ c---- NOTE: Please add new future couplings in the same order for both declarati
       double complex dV_Z,dP_Z,dM_Z,dFour_Z
       double complex dZZWpWm,dZAWpWm,dAAWpWm
 
+!     N.Pinto: Additionally, add cW_Z and cW_A (and maybe the tilded versions in the future!): 
+      double complex cW_A
+      double complex cW_Z
+
 
       common/spinzerohiggs_anomcoupl/
      & AllowAnomalousCouplings,
@@ -231,3 +235,4 @@ c---- NOTE: Please add new future couplings in the same order for both declarati
      & dV_Z,dP_Z,dM_Z,dFour_Z,
      & dZZWpWm,dZAWpWm,dAAWpWm
 
+     & cW
