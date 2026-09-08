@@ -31,6 +31,7 @@
       double complex anomhzzamp_c6_g1,anomhzzamp_c6_g2
       double complex anomhwwamp_c6_g1,anomhwwamp_c6_g2
       double complex srL_anom,srR_anom, sr_cW
+      double complex prefactor_cW, sr_cW_val, coeff_WWZZ_cW, coeff_WWAZ_cW, coeff_WWAA_cW
 !$omp threadprivate(ZZ3456)
       t4(i1,i2,i3,i4)=
      & +s(i1,i2)+s(i1,i3)+s(i1,i4)
@@ -124,13 +125,8 @@ C---setting up couplings dependent on whether we are doing 34-line or 56-line
       prop3456=dcmplx(s3456-hmass**2,hmass*hwidth)
       prop12=1d0/prop3456
 
-C--- N.Pinto: Propagator structure for quartic vertex (no s-channel boson) as well as prefactors
-      propZZ56 = ZZ3456(1,h56)/(prop34*prop56)
-      propZA56 = ZA3456(1,h56)/(prop34*s56)
-      propAZ56 = AZ3456(1,h56)/(s34*prop56)
-      propAA56 = AA3456(1,h56)/(s34*s56)
-
-      prefactor_cW = -6d0*im*e*(1d0-xw)/sinthw
+C--- N.Pinto: Prefactors for cW
+      prefactor_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*(cone-cxw)/sinthw
       coeff_WWZZ_cW = 1d0
       coeff_WWAZ_cW = -1d0/rxw          ! = -tan(theta_W)
       coeff_WWAA_cW = 1d0/rxw**2        ! = tan^2(theta_W)
@@ -893,7 +889,7 @@ C---first prefactor comes from contraction of eta_mu1mu3 with appropriate curren
            & )
            & )
       
-            return
-            end
+      return
+      end
 
       

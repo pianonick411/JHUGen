@@ -124,8 +124,7 @@ c---- NOTE: Please add new future couplings in the same order for both declarati
       double complex dZZWpWm,dZAWpWm,dAAWpWm
 
 !     N.Pinto: Additionally, add cW_Z and cW_A (and maybe the tilded versions in the future!): 
-      double complex cW_A
-      double complex cW_Z
+      double complex cW
 
 
       common/spinzerohiggs_anomcoupl/
