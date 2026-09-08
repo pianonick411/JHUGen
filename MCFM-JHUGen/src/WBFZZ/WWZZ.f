@@ -31,7 +31,7 @@
       double complex anomhzzamp_c6_g1,anomhzzamp_c6_g2
       double complex anomhwwamp_c6_g1,anomhwwamp_c6_g2
       double complex srL_anom,srR_anom, sr_cW
-      double complex prefactor_cW, sr_cW_val, coeff_WWZZ_cW, coeff_WWAZ_cW, coeff_WWAA_cW
+      double complex prefactor_cW, coeff_WWZZ_cW, coeff_WWAZ_cW, coeff_WWAA_cW
 !$omp threadprivate(ZZ3456)
       t4(i1,i2,i3,i4)=
      & +s(i1,i2)+s(i1,i3)+s(i1,i4)
