@@ -122,7 +122,6 @@ c---- NOTE: Please add new future couplings in the same order for both declarati
       double complex dV_A,dP_A,dM_A,dFour_A
       double complex dV_Z,dP_Z,dM_Z,dFour_Z
       double complex dZZWpWm,dZAWpWm,dAAWpWm
-
 !     N.Pinto: Additionally, add cW_Z and cW_A (and maybe the tilded versions in the future!): 
       double complex cW
 
@@ -232,6 +231,6 @@ c---- NOTE: Please add new future couplings in the same order for both declarati
 
      & dV_A,dP_A,dM_A,dFour_A,
      & dV_Z,dP_Z,dM_Z,dFour_Z,
-     & dZZWpWm,dZAWpWm,dAAWpWm
+     & dZZWpWm,dZAWpWm,dAAWpWm,
 
      & cW

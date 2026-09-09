@@ -15,7 +15,9 @@
       double complex zab(mxpart,4,mxpart),zba(mxpart,4,mxpart),
      & j1(4,2,2,2),propz34,propz12,propw12,gmZ(2,2,2),gmZ12(2,2,2),
      & after(4,2,2),before(4,2,2),jw(4,2,2),zab2,rxw,
-     & j1l(4,2,2,2),WWZ(2,2,2),WWgm(2,2,2) !,WWgmZ(2,2,2)
+     & j1l(4,2,2,2),WWZ(2,2,2),WWgm(2,2,2) 
+      double complex coeff_WWZ_cW, coeff_WWA_cW
+     !,WWgmZ(2,2,2)
 C      after(mu,h17,h34),before(mu,h17,h34),jw(mu,jdu,h34)
 C---The one Z-current multiplied by i
 C---order of indices Lorentz,jdu up or down,
@@ -51,7 +53,8 @@ c      bit=0d0
 c      else
       bit=1d0
 c      endif
-
+      coeff_WWZ_cW = -6d0*dcmplx(0d0,1d0)*sqrt(cxw) ! -6icos(theta_w) Needs to fixed for cPhiW and cPhiB effects. 
+      coeff_WWA_cW = -6d0*dcmplx(0d0,1d0)*sqrt(cone-cxw) !  -6isin(theta_w)
 C---setting up couplings dependent on whether we are doing 34-line or 56-line
       if ((n3+n4 == 7) .or. (n3+n4 == 9)) then
       xl=l1
@@ -196,7 +199,7 @@ C----Z attachment to exchanged W
      & - (dM_Z + dP_Z)*zab(i2,:,i1)*zb(i2,i4) 
      & - im*dFour_Z*zab(i3,:,i1)*zb(i3,i4)))
 C----N.Pinto: WWZ vertex contribution from cW in warsaw basis: 
-     & + cW*(WWZ(jdu,1,h34))/propw12 * (
+     & + coeff_WWZ_cW*cW*(WWZ(jdu,1,h34))/propw12 * (
      & zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
      & *(zab(i3,:,i3)+zab(i4,:,i4))
      & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
@@ -206,15 +209,15 @@ C----N.Pinto: WWZ vertex contribution from cW in warsaw basis:
      & -(zab(i3,:,i3)+zab(i4,:,i4))*(s1234+s(i1,i2)-s(i3,i4)))
      & )
 C----N.Pinto: WWgam vertex contribution from cW in warsaw basis: 
-      & + cW*(WWgm(jdu,1,h34))/propw12 * (
-      & zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
-      & *(zab(i3,:,i3)+zab(i4,:,i4))
-      & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
-      & *(zab(i1,:,i1)+zab(i2,:,i2))
-      & + 0.5d0*za(i2,i3)*zb(i4,i1)
-      & *((zab(i1,:,i1)+zab(i2,:,i2))*(s1234-s(i1,i2)+s(i3,i4)) 
-      & -(zab(i3,:,i3)+zab(i4,:,i4))*(s1234+s(i1,i2)-s(i3,i4)))
-      & )
+     & + coeff_WWA_cW*cW*(WWgm(jdu,1,h34))/propw12 * (
+     & zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
+     & *(zab(i3,:,i3)+zab(i4,:,i4))
+     & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
+     & *(zab(i1,:,i1)+zab(i2,:,i2))
+     & + 0.5d0*za(i2,i3)*zb(i4,i1)
+     & *((zab(i1,:,i1)+zab(i2,:,i2))*(s1234-s(i1,i2)+s(i3,i4)) 
+     & -(zab(i3,:,i3)+zab(i4,:,i4))*(s1234+s(i1,i2)-s(i3,i4)))
+     & )
 !       print *, "check new jone",jdu,jw(:,jdu,h34)
 !       pause
 
