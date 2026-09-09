@@ -478,12 +478,12 @@ std::vector<std::vector<double>> JHUGenLexiconTranslator::getTranslationMatrix(
     if (basis_output == bAmplitude_JHUGen){
       if (include_triple_quartic_gauge){
         res.assign(nAmplitude_JHUGen_Include_Triple_CouplingTypes, std::vector<double>(nEFT_JHUGen_CouplingTypes, 0));
+        res[coupl_ampjhutrip_ghz1][coupl_eftjhu_ghz1]= 1.0;
+        res[coupl_ampjhutrip_ghw1][coupl_eftjhu_ghz1]= 1.0;
         if (!TQG_only){
-          res[coupl_ampjhutrip_ghz1][coupl_eftjhu_ghz1]= 1.0;
           res[coupl_ampjhutrip_ghz1_prime2][coupl_eftjhu_ghz1_prime2]= 1.0;
           res[coupl_ampjhutrip_ghz2][coupl_eftjhu_ghz2]= 1.0;
           res[coupl_ampjhutrip_ghz4][coupl_eftjhu_ghz4]= 1.0;
-          res[coupl_ampjhutrip_ghw1][coupl_eftjhu_ghz1]= 1.0;
           res[coupl_ampjhutrip_ghw1_prime2][coupl_eftjhu_ghz1_prime2]= 1.0/pow(MZ,2) * pow(MW,2)/(cw - sw);
           res[coupl_ampjhutrip_ghw1_prime2][coupl_eftjhu_ghz2]= (-2*sw)/pow(MZ,2) * pow(MW,2)/(cw - sw);
           res[coupl_ampjhutrip_ghw1_prime2][coupl_eftjhu_ghzgs2]= (2*sqrt(sw))/sqrt(cw) *(cw - sw)/pow(MZ,2)*pow(MW,2)/(cw - sw);
@@ -840,12 +840,13 @@ std::vector<std::vector<double>> JHUGenLexiconTranslator::getTranslationMatrix(
     if (basis_output == bAmplitude_JHUGen){
       if (include_triple_quartic_gauge){
         res.assign(nAmplitude_JHUGen_Include_Triple_CouplingTypes, std::vector<double>(nEFT_HiggsBasis_CouplingTypes, 0));
+        res[coupl_ampjhutrip_ghz1][coupl_efthbasis_dCz] = 2;
+        res[coupl_ampjhutrip_ghw1][coupl_efthbasis_dCz] = 2;
         if (!TQG_only){
           res[coupl_ampjhutrip_ghz1][coupl_efthbasis_dCz] = 2;
           res[coupl_ampjhutrip_ghz1_prime2][coupl_efthbasis_Czbx] = (pow(e,2))/(sw);
           res[coupl_ampjhutrip_ghz2][coupl_efthbasis_Czz] = -(pow(e,2)/(2*cw*sw));
           res[coupl_ampjhutrip_ghz4][coupl_efthbasis_tCzz] = -(pow(e,2))/(2*cw*sw);
-          res[coupl_ampjhutrip_ghw1][coupl_efthbasis_dCz] = 2;
           res[coupl_ampjhutrip_ghw1_prime2][coupl_efthbasis_Czbx] = (pow(e,2)*pow(MW,2))/(pow(MZ,2)*sw*(cw - sw));
           res[coupl_ampjhutrip_ghw1_prime2][coupl_efthbasis_Czz] = (pow(e,2)*pow(MW,2))/(cw*pow(MZ,2)*(cw - sw));
           res[coupl_ampjhutrip_ghw1_prime2][coupl_efthbasis_Cza] = -((pow(e,2)*pow(MW,2))/(cw*pow(MZ,2)));
@@ -1886,13 +1887,15 @@ void JHUGenLexiconTranslator::interpretOutputCouplings(
   bool switch_convention; getValueWithDefault<std::string, bool>(input_flags, "switch_convention", switch_convention, false);
   double MZ; getValueWithDefault<std::string, double>(input_parameters, "MZ", MZ, DEFVAL_MZ);
   double MW; getValueWithDefault<std::string, double>(input_parameters, "MW", MW, DEFVAL_MW);
+  double sw; getValueWithDefault<std::string, double>(input_parameters, "sw", sw, DEFVAL_SW);
+  double cw=1.0-sw;
   double Lambda_z1; getValueWithDefault<std::string, double>(input_parameters, "Lambda_z1", Lambda_z1, DEFVAL_LAMBDA_VI);
   double Lambda_w1; getValueWithDefault<std::string, double>(input_parameters, "Lambda_w1", Lambda_w1, DEFVAL_LAMBDA_VI);
   double Lambda_zgs1; getValueWithDefault<std::string, double>(input_parameters, "Lambda_zgs1", Lambda_zgs1, DEFVAL_LAMBDA_VI);
 #define COUPLING_COMMAND(NAME, PREFIX, DEFVAL) \
   if (useMCFMAtOutput && (std::string(#NAME).find("ghz")!=std::string::npos || std::string(#NAME).find("ghw")!=std::string::npos)){ output_vector.at(coupl_##PREFIX##_##NAME).first /= 2.; output_vector.at(coupl_##PREFIX##_##NAME).second /= 2.; } \
-  if (useMCFMAtOutput && (#NAME == "dZZWpWm")){ output_vector.at(coupl_##PREFIX##_##NAME).first /= 3.32545; } \
-  if (useMCFMAtOutput && (#NAME == "dZAWpWm")){ output_vector.at(coupl_##PREFIX##_##NAME).first /= 1.82358; } \
+  if (useMCFMAtOutput && (#NAME == "dZZWpWm")){ output_vector.at(coupl_##PREFIX##_##NAME).first *= sw/cw; } \
+  if (useMCFMAtOutput && (#NAME == "dZAWpWm")){ output_vector.at(coupl_##PREFIX##_##NAME).first *= sqrt(sw/cw); } \
   if (std::string(#NAME).find("ghzgs")!=std::string::npos && std::string(#NAME).find("prime2")!=std::string::npos){ output_vector.at(coupl_##PREFIX##_##NAME).first /= std::pow(MZ/Lambda_zgs1, 2); output_vector.at(coupl_##PREFIX##_##NAME).second /= std::pow(MZ/Lambda_zgs1, 2); } \
   else if (std::string(#NAME).find("ghz")!=std::string::npos && std::string(#NAME).find("prime2")!=std::string::npos){ output_vector.at(coupl_##PREFIX##_##NAME).first /= std::pow(MZ/Lambda_z1, 2); output_vector.at(coupl_##PREFIX##_##NAME).second /= std::pow(MZ/Lambda_z1, 2); } \
   else if (std::string(#NAME).find("ghw")!=std::string::npos && std::string(#NAME).find("prime2")!=std::string::npos){ output_vector.at(coupl_##PREFIX##_##NAME).first /= std::pow(MW/Lambda_w1, 2); output_vector.at(coupl_##PREFIX##_##NAME).second /= std::pow(MW/Lambda_w1, 2); } \
