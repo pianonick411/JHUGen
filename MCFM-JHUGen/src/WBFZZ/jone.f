@@ -52,7 +52,8 @@ c      bit=0d0
 c      else
       bit=1d0
 c      endif
-
+      coeff_WWZ_cW = -6d0*dcmplx(0d0,1d0)*sqrt(cxw) ! -6icos(theta_w) Needs to fixed for cPhiW and cPhiB effects. 
+      coeff_WWA_cW = -6d0*dcmplx(0d0,1d0)*sqrt(cone-cxw) !  -6isin(theta_w)
 C---setting up couplings dependent on whether we are doing 34-line or 56-line
       coeff_WWZ_cW = -6d0*dcmplx(0d0,1d0)*sqrt(cxw) ! -6icos(theta_w) Needs to fixed for cPhiW and cPhiB effects. 
       coeff_WWA_cW = -6d0*dcmplx(0d0,1d0)*sqrt(cone-cxw) !  -6isin(theta_w)
@@ -216,27 +217,45 @@ C----SM portion to deal with alpha_SMEW
      & + (zab(i1,:,i1) + zab(i2,:,i2))*zb(i1,i4)
      & - (zab(i3,:,i3) + zab(i4,:,i4))*zb(i1,i4)
      & - (2)*zab(i2,:,i1)*zb(i2,i4)))
-C----N.Pinto: WWZ vertex contribution from cW in warsaw basis: 
-     & + coeff_WWZ_cW*cW*(WWZ(jdu,1,h34))/propw12 * (
-     & zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
-     & *(zab(i3,:,i3)+zab(i4,:,i4))
-     & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
-     & *(zab(i1,:,i1)+zab(i2,:,i2))
-     & + 0.5d0*za(i2,i3)*zb(i4,i1)
-     & *((zab(i1,:,i1)+zab(i2,:,i2))*(s1234-s(i1,i2)+s(i3,i4)) 
-     & -(zab(i3,:,i3)+zab(i4,:,i4))*(s1234+s(i1,i2)-s(i3,i4)))
+C----N.Pinto: WWZ vertex contribution from cW in warsaw basis: The leading factor of -1/2 is an ad-hoc correction. When I do the math for SM vertex, I get the MCFM result * -2
+     & + -0.5d0*coeff_WWZ_cW*cW*(WWZ(jdu,1,h34))/propw12
+     & *(
+     & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)
+     & *0.5d0*(zab(i3,:,i3)+zab(i4,:,i4))
+     & +zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)
+     & *0.5d0*(zab(i1,:,i1)+zab(i2,:,i2))
+     & +2*za(i2,i3)*zb(i4,i1)*(0.5d0*(zab(i1,:,i1)+zab(i2,:,i2))
+     & *(-0.5d0*(s1234 - s(i1,i2)+s(i3,i4))) !eta_mu1mu2 line starts here
+     & - 0.5d0*(zab(i3,:,i3)+zab(i4,:,i4))
+     & *(-0.5d0*(s1234 + (s(i1,i2) - s(i3,i4))))) 
+     & +zab(i3,:,i4)*(zab2(i2,i3,i4,i1)
+     & *(-0.5d0*(s1234 + s(i1,i2) - s(i3,i4))) !eta_mu2mu3 line starts here
+     & + zab2(i2,i3,i4,i1)
+     & *(0.5d0*(s1234 - s(i1,i2) - s(i3,i4)))) 
+     & +zab(i2,:,i1)*(-1d0*zab2(i3,i1,i2,i4)
+     & *(0.5d0*(s1234 - s(i1,i2) - s(i3,i4))) ! eta_mu3mu1 line starts here 
+     & -zab2(i3,i1,i2,i4)*(-0.5d0*(s1234 - s(i1,i2) + s(i3,i4))))
      & )
 C----N.Pinto: WWgam vertex contribution from cW in warsaw basis: 
-     & + coeff_WWA_cW*cW*(WWgm(jdu,1,h34))/propw12 * (
-     & zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
-     & *(zab(i3,:,i3)+zab(i4,:,i4))
-     & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)*0.5d0
-     & *(zab(i1,:,i1)+zab(i2,:,i2))
-     & + 0.5d0*za(i2,i3)*zb(i4,i1)
-     & *((zab(i1,:,i1)+zab(i2,:,i2))*(s1234-s(i1,i2)+s(i3,i4)) 
-     & -(zab(i3,:,i3)+zab(i4,:,i4))*(s1234+s(i1,i2)-s(i3,i4)))
-     & )
-      ! print *, "check new jone",jdu,jw(:,jdu,h34)
+     & + -0.5d0*coeff_WWA_cW*cW*(WWgm(jdu,1,h34))/propw12
+     & *(
+     & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)
+     & *0.5d0*(zab(i3,:,i3)+zab(i4,:,i4))
+     & +zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)
+     & *0.5d0*(zab(i1,:,i1)+zab(i2,:,i2))
+     & +2*za(i2,i3)*zb(i4,i1)*(0.5d0*(zab(i1,:,i1)+zab(i2,:,i2))
+     & *(-0.5d0*(s1234 - s(i1,i2)+s(i3,i4))) !eta_mu1mu2 line starts here
+     & - 0.5d0*(zab(i3,:,i3)+zab(i4,:,i4))
+     & *(-0.5d0*(s1234 + (s(i1,i2) - s(i3,i4))))) 
+     & +zab(i3,:,i4)*(zab2(i2,i3,i4,i1)
+     & *(-0.5d0*(s1234 + s(i1,i2) - s(i3,i4))) !eta_mu2mu3 line starts here
+     & + zab2(i2,i3,i4,i1)
+     & *(0.5d0*(s1234 - s(i1,i2) - s(i3,i4)))) 
+     & +zab(i2,:,i1)*(-1d0*zab2(i3,i1,i2,i4)
+     & *(0.5d0*(s1234 - s(i1,i2) - s(i3,i4))) ! eta_mu3mu1 line starts here 
+     & -zab2(i3,i1,i2,i4)
+     & *(-0.5d0*(s1234 - s(i1,i2) + s(i3,i4)))))
+      print *, "check cW",cW
       ! pause
 
 

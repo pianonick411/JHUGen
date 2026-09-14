@@ -383,6 +383,9 @@ c     prefactor to scale SM contribution for gauge boson couplings (SM: 1)
 c     anomalous couplings for non-higgs-containing triple / quartic gauge boson interactions. (SM: set all to 0)
       data cW / (0d0,0d0) /
 
+c     anomalous couplings for non-higgs-containing triple / quartic gauge boson interactions. (SM: set all to 0)
+      data cW / (0d0,0d0) / 
+      
 c     right handed Z couplings to charged leptons (set separately for each Z)
       data reZ / 0d0 / ! SM = (-2*-1*xw_inp)/(2*sqrt(xw_inp*(1-xw_inp)))
 
