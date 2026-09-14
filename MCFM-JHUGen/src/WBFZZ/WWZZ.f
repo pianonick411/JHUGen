@@ -127,7 +127,8 @@ C---setting up couplings dependent on whether we are doing 34-line or 56-line
       prop12=1d0/prop3456
 
 C--- N.Pinto: Prefactors for cW. Need to modify to incorporate effects of cPhiW and cPhiB! 
-      prefactor_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*(cone-cxw)/sinthw
+      ! prefactor_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*(cone-cxw)/sinthw
+      prefactor_cW = 1d0
       coeff_WWZZ_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*(cone-xw)/sinthw ! = -6ie(cos^2(theta_W)/sin(theta_W))
       coeff_WWAZ_cW = 6d0*dcmplx(0d0,1d0)*sqrt(esq)*sqrt(cxw)         ! = 6iecos(theta_W)
       coeff_WWAA_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*sinthw       ! = tan^2(theta_W)
@@ -884,50 +885,43 @@ C---end statement function
       
       sr_cW = cW*(
 C---first prefactor comes from contraction of eta_mu1mu3 with appropriate currents
-     - 2d0*za(i1,i3)*zb(i4,i7)*(
-     - zab2(i2,i3,i4,i8)*(za(i5,i7)*zb(i7,i6)-za(i5,i1)*zb(i1,i6))
-     - - (za(i2,i7)*zb(i7,i8)-za(i2,i1)*zb(i1,i8))*zab2(i5,i3,i4,i6)
-     - - zab2(i2,i5,i6,i8)*(za(i5,i7)*zb(i7,i6)-za(i5,i1)*zb(i1,i6))
-     - - zab2(i2,i3,i4,i8)*(za(i5,i8)*zb(i8,i6)-za(i5,i2)*zb(i2,i6))
-     - )
-     - + 2d0*za(i1,i5)*zb(i6,i7)*(
-     -   zab2(i2,i5,i6,i8)*(za(i3,i7)*zb(i7,i4)-za(i3,i1)*zb(i1,i4))
-     - - (za(i2,i7)*zb(i7,i8)-za(i2,i1)*zb(i1,i8))*zab2(i3,i5,i6,i4)
-     - - zab2(i2,i3,i4,i8)*(za(i3,i7)*zb(i7,i4)-za(i3,i1)*zb(i1,i4))
-     - - zab2(i2,i5,i6,i8)*(za(i3,i8)*zb(i8,i4)-za(i3,i2)*zb(i2,i4))
-     - )
-     - + 2d0*za(i2,i3)*zb(i4,i8)*(
-     -   zab2(i1,i3,i4,i7)*(za(i5,i8)*zb(i8,i6)-za(i5,i2)*zb(i2,i6))
-     - - (za(i1,i8)*zb(i8,i7)-za(i1,i2)*zb(i2,i7))*zab2(i5,i3,i4,i6)
-     - - zab2(i1,i5,i6,i7)*(za(i5,i8)*zb(i8,i6)-za(i5,i2)*zb(i2,i6))
-     - - zab2(i1,i3,i4,i7)*(za(i5,i7)*zb(i7,i6)-za(i5,i1)*zb(i1,i6))
-     - )
-     - + 2d0*za(i2,i5)*zb(i6,i8)*(
-     -   zab2(i1,i5,i6,i7)*(za(i3,i8)*zb(i8,i4)-za(i3,i2)*zb(i2,i4))
-     - - (za(i1,i8)*zb(i8,i7)-za(i1,i2)*zb(i2,i7))*zab2(i3,i5,i6,i4)
-     - - zab2(i1,i3,i4,i7)*(za(i3,i8)*zb(i8,i4)-za(i3,i2)*zb(i2,i4))
-     - - zab2(i1,i5,i6,i7)*(za(i3,i7)*zb(i7,i4)-za(i3,i1)*zb(i1,i4))
-     - )
-     - - 4d0*za(i1,i2)*zb(i8,i7)*(
-     -   zab2(i3,i5,i6,i4)*zab2(i5,i3,i4,i6)
-     - )
-     - - 4d0*za(i3,i5)*zb(i6,i4)*(
-     -   (za(i1,i8)*zb(i8,i7)-za(i1,i2)*zb(i2,i7))
-     -  *(za(i2,i7)*zb(i7,i8)-za(i2,i1)*zb(i1,i8))
-     - )
-     - + 2d0*za(i1,i3)*zb(i4,i7)*za(i2,i5)*zb(i6,i8)
-     -  *(s(i7,i5)+s(i7,i6)-s(i1,i5)-s(i1,i6)
-     -   +s(i8,i3)+s(i8,i4)-s(i2,i3)-s(i2,i4))
-     - + 2d0*za(i1,i5)*zb(i6,i7)*za(i2,i3)*zb(i4,i8)
-     -  *(s(i7,i3)+s(i7,i4)-s(i1,i3)-s(i1,i4)
-     -   +s(i8,i5)+s(i8,i6)-s(i2,i5)-s(i2,i6))
-     - - 2d0*za(i1,i2)*zb(i8,i7)*za(i3,i5)*zb(i6,i4)*(
-     -   s(i7,i5)+s(i7,i6)-s(i1,i5)-s(i1,i6)
-     -  +s(i8,i3)+s(i8,i4)-s(i2,i3)-s(i2,i4)
-     -  +s(i7,i3)+s(i7,i4)-s(i1,i3)-s(i1,i4)
-     -  +s(i8,i5)+s(i8,i6)-s(i2,i5)-s(i2,i6)
-     - )
-     - )
+     & 2d0*za(i7,i3)*zb(i4,i1)*zab2(i8,i3,i4,i2)*zab2(i5,i7,i1,i6)
+     & -2d0*za(i7,i3)*zb(i4,i1)*zab2(i8,i7,i1,i2)*zab2(i5,i3,i4,i6)
+     & -2d0*za(i7,i3)*zb(i4,i1)*zab2(i8,i5,i6,i2)*zab2(i5,i7,i1,i6)
+     & -2d0*za(i7,i3)*zb(i4,i1)*zab2(i8,i3,i4,i2)*zab2(i5,i8,i2,i6)
+     & +2d0*za(i7,i5)*zb(i6,i1)*zab2(i8,i5,i6,i2)*zab2(i3,i7,i1,i4)
+     & -2d0*za(i7,i5)*zb(i6,i1)*zab2(i8,i7,i1,i2)*zab2(i3,i5,i6,i4)
+     & -2d0*za(i7,i5)*zb(i6,i1)*zab2(i8,i3,i4,i2)*zab2(i3,i7,i1,i4)
+     & -2d0*za(i7,i5)*zb(i6,i1)*zab2(i8,i5,i6,i2)*zab2(i3,i8,i2,i4)
+     & +2d0*za(i8,i3)*zb(i4,i2)*zab2(i7,i3,i4,i1)*zab2(i5,i8,i2,i6)
+     & -2d0*za(i8,i3)*zb(i4,i2)*zab2(i7,i8,i2,i1)*zab2(i5,i3,i4,i6)
+     & -2d0*za(i8,i3)*zb(i4,i2)*zab2(i7,i5,i6,i1)*zab2(i5,i8,i2,i6)
+     & -2d0*za(i8,i3)*zb(i4,i2)*zab2(i7,i3,i4,i1)*zab2(i5,i7,i1,i6)
+     & +2d0*za(i8,i5)*zb(i6,i2)*zab2(i7,i5,i6,i1)*zab2(i3,i8,i2,i4)
+     & -2d0*za(i8,i5)*zb(i6,i2)*zab2(i7,i8,i2,i1)*zab2(i3,i5,i6,i4)
+     & -2d0*za(i8,i5)*zb(i6,i2)*zab2(i7,i3,i4,i1)*zab2(i3,i8,i2,i4)
+     & -2d0*za(i8,i5)*zb(i6,i2)*zab2(i7,i5,i6,i1)*zab2(i3,i7,i1,i4)
+     & -2d0*za(i7,i8)*zb(i2,i1)*zab2(i3,i5,i6,i4)*zab2(i5,i3,i4,i6)
+     & -2d0*za(i7,i8)*zb(i2,i1)*zab2(i5,i3,i4,i6)*zab2(i3,i5,i6,i4)
+     & -2d0*za(i3,i5)*zb(i6,i4)*zab2(i7,i8,i2,i1)*zab2(i8,i7,i1,i2)
+     & -2d0*za(i3,i5)*zb(i6,i4)*zab2(i8,i7,i1,i2)*zab2(i7,i8,i2,i1)
+     & +2d0*za(i7,i3)*zb(i4,i1)*za(i8,i5)*zb(i6,i2)
+     & *(s(i7,i5)+s(i7,i6)+s(i1,i5)+s(i1,i6))
+     & +2d0*za(i7,i3)*zb(i4,i1)*za(i8,i5)*zb(i6,i2)
+     & *(s(i8,i3)+s(i8,i4)+s(i2,i3)+s(i2,i4))
+     & +2d0*za(i7,i5)*zb(i6,i1)*za(i8,i3)*zb(i4,i2)
+     & *(s(i7,i3)+s(i7,i4)+s(i1,i3)+s(i1,i4))
+     & +2d0*za(i7,i5)*zb(i6,i1)*za(i8,i3)*zb(i4,i2)
+     & *(s(i8,i5)+s(i8,i6)+s(i2,i5)+s(i2,i6))
+     & -2d0*za(i7,i8)*zb(i2,i1)*za(i3,i5)*zb(i6,i4)
+     & *(s(i7,i3)+s(i7,i4)+s(i1,i3)+s(i1,i4))
+     & -2d0*za(i7,i8)*zb(i2,i1)*za(i3,i5)*zb(i6,i4)
+     & *(s(i7,i5)+s(i7,i6)+s(i1,i5)+s(i1,i6))
+     & -2d0*za(i7,i8)*zb(i2,i1)*za(i3,i5)*zb(i6,i4)
+     & *(s(i8,i3)+s(i8,i4)+s(i2,i3)+s(i2,i4))
+     & -2d0*za(i7,i8)*zb(i2,i1)*za(i3,i5)*zb(i6,i4)
+     & *(s(i8,i5)+s(i8,i6)+s(i2,i5)+s(i2,i6))
+     & )
       
       return
       end
