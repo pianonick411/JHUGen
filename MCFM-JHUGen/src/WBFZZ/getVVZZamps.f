@@ -135,10 +135,13 @@ C-----Singly resonant production in VBF style diagrams
 
 
 C----ZZ->ZZ scattering with the exchange of a H
-      call ZZHZZamp(j1,j2,j3,j4,j5,j6,j7,j8,
+      ! print *,"ZZH",EW_ZZH_prod_flag
+      if (EW_ZZH_prod_flag .eqv. .true.) then
+            call ZZHZZamp(j1,j2,j3,j4,j5,j6,j7,j8,
      & za,zb,ZZHamp71_82)
-      call ZZHZZamp(j1,j2,j3,j4,j5,j6,j8,j7,
+            call ZZHZZamp(j1,j2,j3,j4,j5,j6,j8,j7,
      & za,zb,ZZHamp81_72)
+      endif
 C----Four boson vertex + WW->Higgs diagram
       call WWZZ(j1,j2,j3,j4,j5,j6,j7,j8,
      & za,zb,WWZZ71_82amp,srWWZZ71_82amp)
@@ -148,6 +151,10 @@ C----Four boson vertex + WW->Higgs diagram
      & za,zb,WWZZ82_71amp,srWWZZ82_71amp)
       call WWZZ(j2,j1,j3,j4,j5,j6,j7,j8,
      & za,zb,WWZZ72_81amp,srWWZZ72_81amp)
+      ! print *,"WW",WWZZ71_82amp,srWWZZ71_82amp
+      ! print *,"WW",WWZZ81_72amp,srWWZZ81_72amp
+      ! print *,"WW",WWZZ82_71amp,srWWZZ82_71amp
+      ! print *,"WW",WWZZ72_81amp,srWWZZ72_81amp
 
 C-----setup for (uqbq_uqbq) (2,5)->(2,5)
       do h1=1,2
@@ -233,7 +240,6 @@ C-----setup for uqsq_dqcq W diagrams (2,3)->(1,4)
      & +(cdotpr(jw7_34_1(:,2,h3),jw8_56_2(:,1,h5))
      &  -cdotpr(jw7_34_1(:,2,h3),k7341(:))
      &  *cdotpr(k7341(:),jw8_56_2(:,1,h5))/cwmass2)/propw7341
-
       amp(uqsq_dqcq,h1,h2,h3,h5)=amp(uqsq_dqcq,h1,h2,h3,h5)
      & +(cdotpr(jw7_56_1(:,2,h5),jw8_34_2(:,1,h3))
      &  -cdotpr(jw7_56_1(:,2,h5),k1567(:))

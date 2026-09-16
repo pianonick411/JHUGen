@@ -32,6 +32,7 @@ c     Begin anomalous couplings
       data AllowAnomalousCouplings / 0 / ! Disables anomalous couplings
       data AllowAnomalousZffCouplings / 0 / ! Disables anomalous Zff Couplings
       data distinguish_HWWcouplings / 0 /
+      data EW_ZZH_prod_flag / .true. /
       data AnomalCouplPR,AnomalCouplDK / 1, 1/
       data channeltoggle_stu / 2 /
       data vvhvvtoggle_vbfvh / 2 /
