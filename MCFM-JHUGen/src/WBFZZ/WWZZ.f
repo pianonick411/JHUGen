@@ -497,7 +497,7 @@ C----Background contribution
      & +coeff_WWAZ_cW*ZA3456(1,h56)/(prop34*s56)
      & +coeff_WWAZ_cW*AZ3456(1,h56)/(s34*prop56)
      & +coeff_WWAA_cW*AA3456(1,h56)/(s34*s56)
-     & )*sr_cW(i1,i2,i3,i4,i5,i6,i7,i8,za,zb,cW)*BBit
+     & )*sr_cW(i1,i2,i3,i4,i5,i6,i7,i8,za,zb,cW,LambdaBSM)*BBit
 
       srWW(2,h56)=srWW(2,h56)
      & +prefactor_cW/(propw17*propw28)*(
@@ -505,7 +505,7 @@ C----Background contribution
      & +coeff_WWAZ_cW*ZA3456(2,h56)/(prop34*s56)
      & +coeff_WWAZ_cW*AZ3456(2,h56)/(s34*prop56)
      & +coeff_WWAA_cW*AA3456(2,h56)/(s34*s56)
-     & )*sr_cW(i1,i2,i3,i4,i5,i6,i7,i8,za,zb,cW)*BBit
+     & )*sr_cW(i1,i2,i3,i4,i5,i6,i7,i8,za,zb,cW,LambdaBSM)*BBit
 
       enddo
 
@@ -554,7 +554,7 @@ C--- N.Pinto: Add cW quartic gauge contributions (note swapped indices i3,i4 <->
      & +coeff_WWAZ_cW*ZA3456(h34,1)/(prop34*s56)
      & +coeff_WWAZ_cW*AZ3456(h34,1)/(s34*prop56)
      & +coeff_WWAA_cW*AA3456(h34,1)/(s34*s56)
-     & )*sr_cW(i1,i2,i5,i6,i3,i4,i7,i8,za,zb,cW)*BBit
+     & )*sr_cW(i1,i2,i5,i6,i3,i4,i7,i8,za,zb,cW,LambdaBSM)*BBit
 
       srWW(h34,2)=srWW(h34,2)
      & +prefactor_cW/(propw17*propw28)*(
@@ -562,7 +562,7 @@ C--- N.Pinto: Add cW quartic gauge contributions (note swapped indices i3,i4 <->
      & +coeff_WWAZ_cW*ZA3456(h34,2)/(prop34*s56)
      & +coeff_WWAZ_cW*AZ3456(h34,2)/(s34*prop56)
      & +coeff_WWAA_cW*AA3456(h34,2)/(s34*s56)
-     & )*sr_cW(i1,i2,i5,i6,i3,i4,i7,i8,za,zb,cW)*BBit
+     & )*sr_cW(i1,i2,i5,i6,i3,i4,i7,i8,za,zb,cW,LambdaBSM)*BBit
 
       enddo
 
@@ -869,13 +869,13 @@ C--- N.Pinto: Add cW quartic gauge contributions (note swapped indices i3,i4 <->
       return
       end
 
-      function sr_cW(i1,i2,i3,i4,i5,i6,i7,i8,za,zb,cW)
+      function sr_cW(i1,i2,i3,i4,i5,i6,i7,i8,za,zb,cW,LambdaBSM)
       implicit none
       include 'constants.f'
       include 'zprods_decl.f'
       include 'sprods_com.f'
       double complex sr_cW,cW
-      double complex LambdaBSM
+      double precision LambdaBSM
       double complex zab2
       double complex, parameter :: cI=(0d0,1d0)
       integer i1,i2,i3,i4,i5,i6,i7,i8

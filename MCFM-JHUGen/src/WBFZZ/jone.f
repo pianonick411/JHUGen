@@ -218,7 +218,9 @@ C----SM portion to deal with alpha_SMEW
      & - (zab(i3,:,i3) + zab(i4,:,i4))*zb(i1,i4)
      & - (2)*zab(i2,:,i1)*zb(i2,i4)))
 C----N.Pinto: WWZ vertex contribution from cW in warsaw basis: -1d0 is an ad-hoc correction to match momentum convention. 
-     & + -1d0*coeff_WWZ_cW*(1/LambdaBSM**2)*cW*(WWZ(jdu,1,h34))/propw12
+
+     & + -1d0*coeff_WWZ_cW*(1/LambdaBSM**2)
+     & *cW*(WWZ(jdu,1,h34))/propw12
      & *(
      & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)
      & *0.5d0*(zab(i3,:,i3)+zab(i4,:,i4))
@@ -237,7 +239,8 @@ C----N.Pinto: WWZ vertex contribution from cW in warsaw basis: -1d0 is an ad-hoc
      & -zab2(i3,i1,i2,i4)*(-0.5d0*(s1234 - s(i1,i2) + s(i3,i4))))
      & )
 C----N.Pinto: WWgam vertex contribution from cW in warsaw basis: 
-     & + -1d0*coeff_WWA_cW*(1/LambdaBSM**2)*cW*(WWgm(jdu,1,h34))/propw12
+     & + -1d0*coeff_WWA_cW*(1/LambdaBSM**2)
+     & *cW*(WWgm(jdu,1,h34))/propw12
      & *(
      & -zab2(i2,i3,i4,i1)*zab2(i3,i1,i2,i4)
      & *0.5d0*(zab(i3,:,i3)+zab(i4,:,i4))
