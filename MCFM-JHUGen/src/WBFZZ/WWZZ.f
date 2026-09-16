@@ -128,7 +128,7 @@ C---setting up couplings dependent on whether we are doing 34-line or 56-line
 
 C--- N.Pinto: Prefactors for cW. Need to modify to incorporate effects of cPhiW and cPhiB! 
       ! prefactor_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*(cone-cxw)/sinthw
-      prefactor_cW = 1d0
+      prefactor_cW = -1d0
       coeff_WWZZ_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*(cone-xw)/sinthw ! = -6ie(cos^2(theta_W)/sin(theta_W))
       coeff_WWAZ_cW = 6d0*dcmplx(0d0,1d0)*sqrt(esq)*sqrt(cxw)         ! = 6iecos(theta_W)
       coeff_WWAA_cW = -6d0*dcmplx(0d0,1d0)*sqrt(esq)*sinthw       ! = tan^2(theta_W)
@@ -875,6 +875,7 @@ C--- N.Pinto: Add cW quartic gauge contributions (note swapped indices i3,i4 <->
       include 'zprods_decl.f'
       include 'sprods_com.f'
       double complex sr_cW,cW
+      double complex LambdaBSM
       double complex zab2
       double complex, parameter :: cI=(0d0,1d0)
       integer i1,i2,i3,i4,i5,i6,i7,i8
@@ -883,8 +884,7 @@ C---statement function
       zab2(i1,i2,i3,i4)=za(i1,i2)*zb(i2,i4)+za(i1,i3)*zb(i3,i4)
 C---end statement function
       
-      sr_cW = cW*(
-C---first prefactor comes from contraction of eta_mu1mu3 with appropriate currents
+      sr_cW = (1/LambdaBSM**2)*cW*(
      & 2d0*za(i7,i3)*zb(i4,i1)*zab2(i8,i3,i4,i2)*zab2(i5,i7,i1,i6)
      & -2d0*za(i7,i3)*zb(i4,i1)*zab2(i8,i7,i1,i2)*zab2(i5,i3,i4,i6)
      & -2d0*za(i7,i3)*zb(i4,i1)*zab2(i8,i5,i6,i2)*zab2(i5,i7,i1,i6)
