@@ -563,11 +563,11 @@ C---N.Pinto:srWW(h34,1) part for cW:
      & +prefactor_cW/(propw17*propw28)*(
      & srgmWW34(1,h34)
      & *coeff_WWA_cW
-     & *srL_cW(i1,i2,i3,i4,i5,i6,
+     & *srL_cW(i1,i2,i5,i6,i3,i4,
      & i7,i8,za,zb,cW,LambdaBSM)
      & +srZWW34(1,h34)
      & *coeff_WWZ_cW
-     & *srL_cW(i1,i2,i3,i4,i5,i6,
+     & *srL_cW(i1,i2,i5,i6,i3,i4,
      & i7,i8,za,zb,cW,LambdaBSM)      
      &)*BBit
      
@@ -590,11 +590,11 @@ C---N.Pinto: srWW(h34,2) part for cW:
      & +prefactor_cW/(propw17*propw28)*(
      & srgmWW34(2,h34)
      & *coeff_WWA_cW
-     & *srR_cW(i1,i2,i3,i4,i5,i6,
+     & *srR_cW(i1,i2,i5,i6,i3,i4,
      & i7,i8,za,zb,cW,LambdaBSM)
      & +srZWW34(2,h34)
      & *coeff_WWZ_cW
-     & *srR_cW(i1,i2,i3,i4,i5,i6,
+     & *srR_cW(i1,i2,i5,i6,i3,i4,
      & i7,i8,za,zb,cW,LambdaBSM)      
      &)*BBit 
 
@@ -980,7 +980,7 @@ C---statement function
 C---end statement function
             
       srL_cW = (1/LambdaBSM**2)*cW*(
-     & (zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i7))*zab2(i8,i1,i7,i2)
+     & (zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i1))*zab2(i8,i1,i7,i2)
      & *2d0*za(i3,i5)*(zb(i6,i3)
      & *zab2(i3,i2,i8,i4)+zb(i6,i5)*zab2(i5,i2,i8,i4))/t356 !term 1 in cW expression, i3 radiates case. 
      & -zab2(i7,i2,i8,i1)*(zab2(i8,i3,i4,i2)+zab2(i8,i5,i6,i2))
@@ -1002,17 +1002,17 @@ C---end statement function
      & -2d0*za(i3,i5)*(zb(i6,i3)*za(i8,i3)*zb(i4,i2)
      & +zb(i6,i5)*za(i8,i5)*zb(i4,i2))
      & *(zab2(i7,i3,i4,i1)
-     & +zab2(i7,i5,i6,i7))*(s(i1,i2)
+     & +zab2(i7,i5,i6,i1))*(s(i1,i2)
      & +s(i1,i8)+s(i7,i2)+s(i7,i8))/t356 !term 6, second part of eta mu2mu3 expansion. 
      & +2d0*za(i3,i5)*(zb(i6,i3)*za(i3,i7)*zb(i1,i4)
-     & +zb(i6,i5)*za(i5,i7)*za(i1,i4))
+     & +zb(i6,i5)*za(i5,i7)*zb(i1,i4))
      & *(zab2(i8,i3,i4,i2)+zab2(i8,i5,i6,i2))
      & *(s(i1,i2)+s(i1,i8)+s(i7,i2)+s(i7,i8))/t356 !term 7, first part of eta mu3m1 expansion. 
      & -2d0*za(i3,i5)*(zb(i6,i3)*za(i3,i7)*zb(i1,i4)
-     & +zb(i6,i5)*za(i5,i7)*za(i1,i4))
+     & +zb(i6,i5)*za(i5,i7)*zb(i1,i4))
      & *zab2(i8,i1,i7,i2)*(s(i2,i3)+s(i2,i4)+s(i2,i5)
      & +s(i2,i6)+s(i8,i3)+s(i8,i4)+s(i8,i5)+s(i8,i6))/t356 !term 8, second part of the eta mu3m1 expansion. 
-     & +(zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i7))
+     & +(zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i1))
      & *zab2(i8,i1,i7,i2)*2d0*zb(i6,i4)*(za(i4,i5)
      & *zab2(i3,i2,i8,i4)+za(i6,i5)*zab2(i3,i2,i8,i6))/t456 !term 1, i4 radiates. 
      & -zab2(i7,i2,i8,i1)*(zab2(i8,i3,i4,i2)+zab2(i8,i5,i6,i2))
@@ -1032,7 +1032,7 @@ C---end statement function
      & +s(i7,i3)+s(i7,i4)+s(i7,i5)+s(i7,i6))/t456 !term 5
      & -2d0*zb(i6,i4)*(za(i4,i5)*za(i8,i3)*zb(i4,i2)
      & +za(i6,i5)*za(i8,i3)*zb(i6,i2))*(zab2(i7,i3,i4,i1)
-     & +zab2(i7,i5,i6,i7))*(s(i1,i2)+s(i1,i8)
+     & +zab2(i7,i5,i6,i1))*(s(i1,i2)+s(i1,i8)
      & +s(i7,i2)+s(i7,i8))/t456 !term 6
      & +2d0*zb(i6,i4)*(za(i4,i5)*za(i3,i7)*zb(i1,i4)
      & +za(i6,i5)*za(i3,i7)*zb(i1,i6))*(zab2(i8,i3,i4,i2)
@@ -1067,7 +1067,7 @@ C---statement function
       t456=s(i4,i5)+s(i4,i6)+s(i5,i6)
 C---end statement function
       srR_cW = (1/LambdaBSM**2)*cW*(
-     & (zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i7))
+     & (zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i1))
      & *zab2(i8,i1,i7,i2)*2d0
      & *zb(i3,i6)*(za(i5,i3)*zba2(i3,i2,i8,i4)
      & +za(i5,i6)*zba2(i6,i2,i8,i4))/t356 !term 1
@@ -1088,14 +1088,14 @@ C---end statement function
      & +s(i7,i4)+s(i7,i5)+s(i7,i6))/t356 !term 5
      & -2d0*zb(i3,i6)*(za(i5,i3)*za(i8,i4)*zb(i3,i2)+za(i5,i6)
      & *za(i8,i4)*zb(i6,i2))*(zab2(i7,i3,i4,i1)
-     & +zab2(i7,i5,i6,i7))*(s(i1,i2)+s(i1,i8)+s(i7,i2)+s(i7,i8))/t356 !term 6
+     & +zab2(i7,i5,i6,i1))*(s(i1,i2)+s(i1,i8)+s(i7,i2)+s(i7,i8))/t356 !term 6
      & +2d0*zb(i3,i6)*(za(i5,i3)*za(i7,i4)*zb(i3,i1)+za(i5,i6)
      & *za(i7,i4)*zb(i6,i1))*(zab2(i8,i3,i4,i2)
      & +zab2(i8,i5,i6,i2))*(s(i1,i2)+s(i1,i8)+s(i7,i2)+s(i7,i8))/t356 !term 7 
      & -2d0*zb(i3,i6)*(za(i5,i3)*za(i7,i4)*zb(i3,i1)+za(i5,i6)
      & *za(i7,i4)*zb(i6,i1))*zab2(i8,i1,i7,i2)*(s(i2,i3)+s(i2,i4)
      & +s(i2,i5)+s(i2,i6)+s(i8,i3)+s(i8,i4)+s(i8,i5)+s(i8,i6))/t356 !term 8 
-     & +(zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i7))*zab2(i8,i1,i7,i2)
+     & +(zab2(i7,i3,i4,i1)+zab2(i7,i5,i6,i1))*zab2(i8,i1,i7,i2)
      & *2d0*za(i5,i4)*(zb(i4,i6)*zba2(i3,i2,i8,i4)
      & +zb(i5,i6)*zba2(i3,i2,i8,i5))/t456 !term 1 
      & -zab2(i7,i2,i8,i1)*(zab2(i8,i3,i4,i2)+zab2(i8,i5,i6,i2))
@@ -1115,7 +1115,7 @@ C---end statement function
      & +s(i7,i3)+s(i7,i4)+s(i7,i5)+s(i7,i6))/t456 !term 5
      & -2d0*za(i5,i4)*(zb(i4,i6)*za(i8,i4)*zb(i3,i2)
      & +zb(i5,i6)*za(i8,i5)*zb(i3,i2))*(zab2(i7,i3,i4,i1)
-     & +zab2(i7,i5,i6,i7))*(s(i1,i2)+s(i1,i8)
+     & +zab2(i7,i5,i6,i1))*(s(i1,i2)+s(i1,i8)
      & +s(i7,i2)+s(i7,i8))/t456 !term 6
      & +2d0*za(i5,i4)*(zb(i4,i6)*za(i7,i4)*zb(i3,i1)
      & +zb(i5,i6)*za(i7,i5)*zb(i3,i1))*(zab2(i8,i3,i4,i2)
