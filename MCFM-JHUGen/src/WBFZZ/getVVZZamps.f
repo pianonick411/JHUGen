@@ -57,11 +57,16 @@
      & srWWZZ71_82amp(2,2),srWWZZ81_72amp(2,2),
      & srWWZZ82_71amp(2,2),srWWZZ72_81amp(2,2)
       logical doHO,doBO
+C---N.Pinto: 
+      ! integer itgc
+      ! double complex cw_saved,alpha_saved,tgc_amp(2,2,0:2)
 
 
       amp(:,:,:,:,:)=czip
       ampa(:,:,:,:,:)=czip
       ampb(:,:,:,:,:)=czip
+
+
 
 
 c--- propagators and currents are not used in calculation of Higgs contribution
@@ -138,7 +143,19 @@ C----ZZ->ZZ scattering with the exchange of a H
       call ZZHZZamp(j1,j2,j3,j4,j5,j6,j7,j8,
      & za,zb,ZZHamp71_82)
       call ZZHZZamp(j1,j2,j3,j4,j5,j6,j8,j7,
-     & za,zb,ZZHamp81_72)
+     & za,zb,ZZHamp81_72)   
+C----N.Pinto Current contraction checks
+C----If these are vanishingly small, we confirm that 
+C---- J71 dot J34 = 2<34>[71]
+C---- and J82 dot (p3+p4) = <83>[32] + <84>[42]
+!       write(6,*) 'JJ residual ',
+!      & cdotpr(zab(j7,:,j1),zab(j3,:,j4))
+!      & -2d0*za(j7,j3)*zb(j4,j1)
+
+!       write(6,*) 'JQ residual ',
+!      & cdotpr(zab(j8,:,j2),
+!      & 0.5d0*(zab(j3,:,j3)+zab(j4,:,j4)))
+!      & -za(j8,j3)*zb(j3,j2)-za(j8,j4)*zb(j4,j2)
 C----Four boson vertex + WW->Higgs diagram
       call WWZZ(j1,j2,j3,j4,j5,j6,j7,j8,
      & za,zb,WWZZ71_82amp,srWWZZ71_82amp)
@@ -415,7 +432,28 @@ C--Fill Z exchange diagrams
       enddo
       enddo
       enddo
+
+      
+
+
+C---N.Pinto test extra contributions to SM beyond quartic.
+!       print*, 'DBG channel indices = ',
+!      & j1,j2,j3,j4,j5,j6,j7,j8
+!       do h3=1,2
+!       do h5=1,2
+!       print*, 'DBG channel helicities = ',h3,h5
+!       print*, 'DBG returned WWZZ = ',
+!      & WWZZ81_72amp(h3,h5)
+!       print*, 'DBG W branch extra = ',
+!      & ampb(dquq_dquq,1,1,h3,h5)-WWZZ81_72amp(h3,h5)
+!       print*, 'DBG neutral branch = ',
+!      & ampa(dquq_dquq,:,:,h3,h5)
+!       enddo
+!       enddo
 C-----------------------------------------------------------------
+C---N.Pinto diagnostic for jone
+!       print *, 'TGC MW,GW,cwmass2: ',
+!      & wmass,wwidth,cwmass2
 
 C-----setup for (dqsq_dqsq) (1,3)-->(1,3)
       do h1=1,2
@@ -519,7 +557,87 @@ C-----------------ampb
       enddo
       enddo
       enddo
+C---N.Pinto TEMPORARY: isolate the dquq quartic channel for comparison.
+      ! amp(:,:,:,:,:)=czip
+      ! ampa(:,:,:,:,:)=czip
+      ! ampb(:,:,:,:,:)=czip
+      ! ampb(dquq_dquq,1,1,:,:)=WWZZ81_72amp(:,:)
+C---N.Pinto TEMPORARY: Isolate the dquq singly-resonant channel for comparsion. 
+!       amp(:,:,:,:,:)=czip
+!       ampa(:,:,:,:,:)=czip
+!       ampb(:,:,:,:,:)=czip
+!       ampb(dquq_dquq,1,1,:,:) =
+!      & -BBit*srWWZZ81_72amp(:,:)
+!       print *, 'SR FINAL BBit: ',BBit
+!       print *, 'SR FINAL indices: ',
+!      & j1,j2,j3,j4,j5,j6,j8,j7
+!       do h3=1,2
+!         do h5=1,2
+!           print *, 'SR FINAL actual: ',h3,h5,
+!      &      ampb(dquq_dquq,1,1,h3,h5)
+!           print *, 'SR FINAL expected: ',h3,h5,
+!      &      -BBit*srWWZZ81_72amp(h3,h5)
+!         enddo
+!       enddo
+C---N.Pinto Temporary: isolate two triple-gauge vertices, at most one cW insertion.
+!       amp(:,:,:,:,:)=czip
+!       ampa(:,:,:,:,:)=czip
+!       ampb(:,:,:,:,:)=czip
 
+!       if (doHO .eqv. .false.) then
+!       cw_saved=cW
+!       alpha_saved=alpha_SMEW
+
+! C---Evaluate M(0), M(+1), M(-1), always with SM vertices enabled.
+!       alpha_SMEW=cone
+!       do itgc=0,2
+!         if (itgc.eq.0) then
+!           cW=czip
+!         elseif (itgc.eq.1) then
+!           cW=cone
+!         else
+!           cW=-cone
+!         endif
+
+! C---Rebuild the four currents needed for this isolated channel.
+!       call jone(j8,j3,j4,j1,za,zb,zab,zba,
+!      & j8_34_1,jw8_34_1,jl8_34_1)
+!       call jone(j7,j5,j6,j2,za,zb,zab,zba,
+!      & j7_56_2,jw7_56_2,jl7_56_2)
+!       call jone(j8,j5,j6,j1,za,zb,zab,zba,
+!      & j8_56_1,jw8_56_1,jl8_56_1)
+!       call jone(j7,j3,j4,j2,za,zb,zab,zba,
+!      & j7_34_2,jw7_34_2,jl7_34_2)
+
+!       do h3=1,2
+!       do h5=1,2
+!       tgc_amp(h3,h5,itgc)=BBit*(
+!      & (cdotpr(jw8_34_1(:,1,h3),jw7_56_2(:,2,h5))
+!      & -cdotpr(jw8_34_1(:,1,h3),k7562(:))
+!      & *cdotpr(k7562(:),jw7_56_2(:,2,h5))/cwmass2)
+!      & /propw7562
+!      & +(cdotpr(jw8_56_1(:,1,h5),jw7_34_2(:,2,h3))
+!      & -cdotpr(jw8_56_1(:,1,h5),k7342(:))
+!      & *cdotpr(k7342(:),jw7_34_2(:,2,h3))/cwmass2)
+!      & /propw7342)
+!       enddo
+!       enddo
+!       enddo
+
+! C---Restore the requested couplings.
+!       cW=cw_saved
+!       alpha_SMEW=alpha_saved
+
+! C---Return alpha*M_SM + cW*M_single; omit the two-insertion term.
+!       do h3=1,2
+!       do h5=1,2
+!       ampb(dquq_dquq,1,1,h3,h5)=
+!      & alpha_saved*tgc_amp(h3,h5,0)
+!      & +cw_saved*0.5d0*
+!      & (tgc_amp(h3,h5,1)-tgc_amp(h3,h5,2))
+!       enddo
+!       enddo
+!       endif
       return
 
       end
